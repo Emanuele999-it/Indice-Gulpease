@@ -6,9 +6,29 @@ import textract
 nf = input("Digita il nome del PDF di cui vuoi calcolare l'indice di leggibilita': ")
 testo = str(textract.process(nf, method='pdftotext'))
 
+testo = testo.replace("\\n","")
+testo = testo.replace("\\r"," ")
+testo = testo.replace("\\xcc","")
+testo = testo.replace("\\xe2","")
+testo = testo.replace("\\x80","")
+testo = testo.replace("\\x98","")
+testo = testo.replace("\\xa2","")
+testo = testo.replace("\\x0co","")
+testo = testo.replace("\\x99","")
+testo = testo.replace("\\x0c","")
+testo = testo.replace("\\x9d","")
+testo = testo.replace("\\x88","")
+testo = testo.replace("\\x97","")
+testo = testo.replace("\\x93","")
+testo = testo.replace("  "," ")
+
 #print(testo)
 
 import re
+
+testo = re.sub('\.\.+', ' ', testo)
+testo = re.sub(r'(.+?)\1+', r'\1', testo)
+
 parole  = len(re.findall(r'\w+', testo))
 lettere = len(re.findall(r'\w', testo))
 punti = len(re.findall('[.]+\s', testo))+len(re.findall('[;]+\s', testo)) - len(re.findall('[.]+\s+[.]', testo))
